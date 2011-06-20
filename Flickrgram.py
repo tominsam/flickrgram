@@ -2,6 +2,7 @@
 import logging
 import os
 import time
+import cgi
 
 from google.appengine.ext.webapp import template
 
@@ -15,42 +16,34 @@ class FlickrgramApp (FlickrApp) :
         FlickrApp.__init__(self, config['flickr_apikey'], config['flickr_apisecret'])
         self.config = config
         self.min_perms = config['flickr_minperms']
-
-class MainApp(FlickrgramApp) :
-
-    def get (self) :
-        if not self.check_logged_in(self.min_perms) :
-            self.response.out.write("<a href=\"/signin\">Click here to sign in using Flickr</a>")
-            return
-        
+    
+    def search(self, page):
+        if not page:
+            page = 1
         extras = "date_upload,date_taken,owner_name,icon_server,geo,path_alias"
-        getContactsPhotos = self.proxy_api_call("flickr.photos.getContactsPhotos", {
+        result = self.proxy_api_call("flickr.photos.getContactsPhotos", {
             "auth_token":self.user.token,
-            "count":20,
-            "extras":extras,
+            "count":50, # has to be 50, no other way of getting lots.
             "include_self":1,
+            "extras":extras,
         }, ttl=120)
-        
-        if not getContactsPhotos["stat"] == "ok":
-            self.response.out.write("can't get photos")
-            return
+
+        logging.info("got data %s"%result)
+
+        if not result["stat"] == "ok":
+            logging.error("error response: %r"%result)
+            return []
             
-        photos = getContactsPhotos["photos"]["photo"]
+        photos = result["photos"]["photo"]
         
         now = time.time()
         for photo in photos:
             ago = int( time.time() - int(photo["dateupload"]) )
-            
             photo["ago"] = self.simplify(ago)
-            
-        
-        logging.info("got data %s"%photos)
 
-        crumb = self.generate_crumb(self.user, 'logout')
+        return photos
         
-        path = os.path.join(TEMPLATE_BASE, 'index.html')
-        self.response.out.write(template.render(path, locals()))
-    
+
     def simplify(self,ago):
         days = 0
         hours = 0
@@ -85,6 +78,26 @@ class MainApp(FlickrgramApp) :
             return "%s seconds ago"%seconds
         else:
             return "just now"
+        
+    
+    def render(self, name, params):
+        path = os.path.join(TEMPLATE_BASE, name)
+        self.response.out.write(template.render(path, params))
+        return
+
+
+class MainApp(FlickrgramApp) :
+
+    def get (self) :
+        if not self.check_logged_in(self.min_perms) :
+            return self.render("login.html", locals())
+        
+        photos = self.search(1)
+        
+        crumb = self.generate_crumb(self.user, 'logout')
+        
+        return self.render("index.html", locals())
+    
 
 
 

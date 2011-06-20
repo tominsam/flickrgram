@@ -8,8 +8,9 @@ div,span,body,html {
 }
 
 body {
-    width: 320px;
-    overflow-x:hidden;
+  width: 320px;
+  overflow-x: hidden;
+  font-family: Helvetica, sans;
 }
 
 #header {
@@ -18,7 +19,7 @@ body {
 /*  position: fixed;*/
   display: block;
   border-bottom: 1px solid black;
-  width: 100%;
+  width: 310px;
   background: white;
   z-index: 2;
 }
@@ -35,9 +36,8 @@ body {
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 20px;
-  font-family: Helvetica, sans;
   font-size: 14px;
-  min-height: 340px;
+  min-height: 280px;
 }
 
 .image {
@@ -48,9 +48,14 @@ body {
 
 .ownername {
   display: block;
-  font-family: Helvetica, sans;
   font-size: 12px;
   font-weight: bold;
+  color: #023182;
+}
+
+.author {
+  font-weight: bold;
+  color: #023182;
 }
 
 .ago {
@@ -66,4 +71,12 @@ a {
   text-decoration: none;
 }
 
+.more {
+  display: block;
+  width: 310px;
+  text-align: center;
+  padding: 10px 5px 10px 5px;
+  background: #dddddd;
+  font-size: 16px;
+}
 
