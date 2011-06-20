@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>flickrgram</title>
+
+  <meta name='HandheldFriendly' content='True' />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <!-- <meta name="viewport" content="width=900"> -->
+
+  <link rel="shortcut icon" href="/static/site_16.png">
+  <link rel="apple-touch-icon" href="/static/site_128.png">
+
+  <link rel="stylesheet" href="/static/style.css" type="text/css">
+
+</head>
+<body>
+<div id="header">
+    <div style="float: right">
+        <form method="POST" action="signout">
+        <input type="hidden" name="crumb" value="{{ crumb }}" />
+        <input type="submit" value="SIGN OUT" />
+    </div>
+    </form>
+    You are logged in with your {{ self.user.username }} Flickr account
+</div>
+
+<div id="photos">
+{% for photo in photos %}
+    <div class="photo">
+        <div class="ago" style="float: right">{{ photo.ago }}</div>
+        <img style="float: left; margin: 0 5px 5px 0;" src="{% if photo.iconserver %}http://farm{{photo.iconfarm}}.static.flickr.com/{{photo.iconserver}}/buddyicons/{{photo.owner}}.jpg{% else %}http://www.flickr.com/images/buddyicon.jpg{% endif %}" width="32" height="32">
+        <div style="float: left;">
+          <span class="ownername">{{ photo.ownername }}</span>
+            {% if photo.latitude and photo.longitude %}
+            <span class="map"><a href="http://maps.google.com/maps?q={{ photo.title }}@{{ photo.latitude }},{{ photo.longitude }}&amp;z=13">map</a></span>
+            {% endif %}
+        </div>
+
+        <div style="clear: both;"></div>
+        
+        <center>
+        <a href="http://flickr.com/photos/{{ photo.pathalias }}/{{ photo.id }}">
+            <img src="http://farm{{photo.farm}}.static.flickr.com/{{photo.server}}/{{photo.id}}_{{photo.secret}}.jpg" class="image">
+        </a>
+        </center>
+
+        {% if photo.title %}
+        <span class="comments">{{ photo.ownername }}: {{ photo.title }}</span>
+        {% endif %}
+
+        </span>
+    </div>
+{% endfor %}
+</div>
+
+</body>
+</html>

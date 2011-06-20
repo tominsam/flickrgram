@@ -1,0 +1,69 @@
+div,span,body,html {
+    margin:0;
+    padding:0;
+    border:0;
+    outline:0;
+    font-size:100%;
+    vertical-align:baseline;
+}
+
+body {
+    width: 320px;
+    overflow-x:hidden;
+}
+
+#header {
+  padding: 4px;
+  margin: 0 0 20px 0;
+/*  position: fixed;*/
+  display: block;
+  border-bottom: 1px solid black;
+  width: 100%;
+  background: white;
+  z-index: 2;
+}
+
+
+#photos {
+  width: 310px;
+  padding: 4px;
+}
+
+.photo {
+  position: relative;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  font-family: Helvetica, sans;
+  font-size: 14px;
+  min-height: 340px;
+}
+
+.image {
+  max-width: 310px;
+  max-height: 340px;
+}
+
+
+.ownername {
+  display: block;
+  font-family: Helvetica, sans;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.ago {
+  font-size: 11px;
+}
+
+.map {
+  font-size: 11px;
+  line-height: 1px;
+}
+
+a {
+  text-decoration: none;
+}
+
+
