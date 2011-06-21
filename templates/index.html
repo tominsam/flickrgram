@@ -1,36 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <title>flickrgram</title>
-  <meta name='HandheldFriendly' content='True' />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
-<!--
-  <link rel="shortcut icon" href="/static/site_16.png">
-  <link rel="apple-touch-icon" href="/static/site_128.png">
--->
-  <link rel="stylesheet" href="/static/style.css" type="text/css">
-<!--
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-  <script>
-  $(function() {
-      $("img").
-  });
-  </script>
--->
-
-</head>
-<body>
-<div id="header">
-    <div style="float: right">
-        <form method="POST" action="signout">
-        <input type="hidden" name="crumb" value="{{ crumb }}" />
-        <input type="submit" value="Log out" />
-    </div>
-    </form>
-    {{ self.user.username }}
-</div>
+{% extends "base.html" %}
+{% block content %}
 
 <div id="photos">
 {% for photo in photos %}
@@ -65,5 +34,4 @@
 <a class="more" href="#">More..</a>
 -->
 
-</body>
-</html>
+{% endblock %}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>flickrgram</title>
+  <meta name='HandheldFriendly' content='True' />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" /> 
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+  <!-- <link rel="apple-touch-startup-image" href="/static/startup_iphone.png" /> -->
+  <link rel="shortcut icon" href="/static/site_16.png">
+  <link rel="apple-touch-icon-precomposed" href="/static/site_128.png">
+  <link rel="stylesheet" href="/static/style.css" type="text/css">
+<!--
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+  <script>
+  $(function() {
+      $("img").
+  });
+  </script>
+-->
+
+</head>
+<body>
+<div id="header">
+    {% if self.user %}
+    <div style="float: right">
+        <form method="POST" action="signout">
+        <input type="hidden" name="crumb" value="{{ crumb }}" />
+        <input type="submit" value="Log out" />
+    </div>
+    </form>
+    {{ self.user.username }}
+    {% else %}
+    Not logged in
+    {% endif %}
+</div>
+
+{% if error %}
+<h2>{{ error }}</h2>
+{% endif %}
+
+{% block content %}
+{% endblock %}
+
+<p class="credits">Another fine <a href="http://code.movieos.org">Tom Insam product</a></p>
+
+</body>
+</html>
