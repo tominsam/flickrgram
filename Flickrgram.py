@@ -11,6 +11,9 @@ from config import config
 
 TEMPLATE_BASE="" # set from main
 
+class FlickrProblem(Exception):
+    pass
+
 class FlickrgramApp (FlickrApp) :
     def __init__ (self) :
         FlickrApp.__init__(self, config['flickr_apikey'], config['flickr_apisecret'])
@@ -23,7 +26,7 @@ class FlickrgramApp (FlickrApp) :
         extras = "date_upload,date_taken,owner_name,icon_server,geo,path_alias"
         result = self.proxy_api_call("flickr.photos.getContactsPhotos", {
             "auth_token":self.user.token,
-            "count":50, # has to be 50, no other way of getting lots.
+            "count":30, # can't paginate beyond this, alas
             "include_self":1,
             "extras":extras,
         }, ttl=120)
@@ -32,7 +35,7 @@ class FlickrgramApp (FlickrApp) :
 
         if not result["stat"] == "ok":
             logging.error("error response: %r"%result)
-            return []
+            raise FlickrProblem(result["message"])
             
         photos = result["photos"]["photo"]
         
@@ -92,7 +95,10 @@ class MainApp(FlickrgramApp) :
         if not self.check_logged_in(self.min_perms) :
             return self.render("login.html", locals())
         
-        photos = self.search(1)
+        try:
+            photos = self.search(1)
+        except FlickrProblem, error:
+            pass
         
         crumb = self.generate_crumb(self.user, 'logout')
         

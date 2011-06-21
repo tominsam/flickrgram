@@ -35,9 +35,9 @@ body {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
   font-size: 14px;
-  min-height: 280px;
+  min-height: 200px;
 }
 
 .image {
@@ -80,3 +80,9 @@ a {
   font-size: 16px;
 }
 
+.credits {
+  font-size: 11px;
+  display: block;
+  width:300px;
+  padding: 10px;
+}
