@@ -15,12 +15,12 @@
         <div style="clear: both;"></div>
 
         <div id="map-{{photo.id}}" style="display: none">
-          <a target="_new" href="http://maps.google.com/maps?q={{ photo.title }}@{{ photo.latitude }},{{ photo.longitude }}&amp;z=13"><img data-src="http://maps.google.com/maps/api/staticmap?center={{photo.latitude}},{{photo.longitude}}&amp;zoom=14&amp;size=400x150&amp;maptype=roadmap&amp;markers=color:blue|size:small|{{photo.latitude}},{{photo.longitude}}&amp;sensor=false"></a>
+          <a target="_new" href="http://maps.google.com/maps?q={{ photo.title }}@{{ photo.latitude }},{{ photo.longitude }}&amp;z=13"><img data-src="http://maps.google.com/maps/api/staticmap?center={{photo.latitude}},{{photo.longitude}}&amp;zoom=14&amp;size={% if retina %}420x160{% else %}310x100{% endif %}&amp;maptype=roadmap&amp;markers=color:blue|size:small|{{photo.latitude}},{{photo.longitude}}&amp;sensor=false"></a>
         </div>
         
         <center>
         <a href="http://www.flickr.com/photos/{{ photo.pathalias }}/{{ photo.id }}" target="_blank">
-            <img data-src="http://farm{{photo.farm}}.static.flickr.com/{{photo.server}}/{{photo.id}}_{{photo.secret}}.jpg" class="image">
+            <img data-src="http://farm{{photo.farm}}.static.flickr.com/{{photo.server}}/{{photo.id}}_{{photo.secret}}{% if retina %}{% else %}_m{% endif %}.jpg" class="image">
         </a>
         </center>
 
@@ -32,7 +32,7 @@
     </div>
 {% endfor %}
 
-<a class="more" href="#">More..</a>
+<a class="more" href="#" style="display: none">More..</a>
 
 <script>
   function show_images(count) {
@@ -72,7 +72,10 @@
   }
 
   // on page load show some images
-  show_images(5);
+  setTimeout(function() {
+      show_images(5);
+      $(".more").show();
+  }, 250);
 
   $(".more").click(function() {
       var left = show_images(5);

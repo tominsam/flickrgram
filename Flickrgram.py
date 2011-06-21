@@ -101,6 +101,9 @@ class MainApp(FlickrgramApp) :
         except FlickrProblem, error:
             pass
         
+        retina = True
+        
+        
         return self.render("index.html", locals())
     
 
