@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div id="photos">
 {% for photo in photos %}
-    <div class="photo">
+    <div class="photo" style="display: none">
         <div class="ago" style="float: right">{{ photo.ago }}</div>
-        <img style="float: left; margin: 0 5px 5px 0;" src="{% if photo.iconserver %}http://farm{{photo.iconfarm}}.static.flickr.com/{{photo.iconserver}}/buddyicons/{{photo.owner}}.jpg{% else %}http://www.flickr.com/images/buddyicon.jpg{% endif %}" width="32" height="32">
+        <img class="icon" style="float: left; margin: 0 5px 5px 0;" data-src="{% if photo.iconserver %}http://farm{{photo.iconfarm}}.static.flickr.com/{{photo.iconserver}}/buddyicons/{{photo.owner}}.jpg{% else %}http://www.flickr.com/images/buddyicon.jpg{% endif %}" width="32" height="32">
         <div style="float: left;">
           <span class="ownername">{{ photo.ownername }}</span>
             {% if photo.latitude and photo.longitude %}
@@ -17,7 +16,7 @@
         
         <center>
         <a href="http://www.flickr.com/photos/{{ photo.pathalias }}/{{ photo.id }}">
-            <img src="http://farm{{photo.farm}}.static.flickr.com/{{photo.server}}/{{photo.id}}_{{photo.secret}}.jpg" class="image">
+            <img data-src="http://farm{{photo.farm}}.static.flickr.com/{{photo.server}}/{{photo.id}}_{{photo.secret}}.jpg" class="image">
         </a>
         </center>
 
@@ -28,10 +27,56 @@
         </span>
     </div>
 {% endfor %}
-</div>
 
-<!--
 <a class="more" href="#">More..</a>
--->
+
+<script>
+  function show_images(count) {
+      var left = count;
+      $("div.photo").each(function(idx,obj){
+          obj = $(obj);
+          if (obj.is(':visible')) {
+              return;
+          }
+          obj.show();
+          // TODO - hw accel this. obj.fadeIn(1500);
+          $(obj).find("img").each(function(idx,obj) {
+              obj = $(obj);
+              var src = obj.attr("data-src");
+              if (src) {
+                  obj.attr("src", src);
+                  obj.removeAttr("data-src");
+              }
+          });
+          left -= 1;
+          if (left == 0) {
+              return false;
+          }
+      });
+
+      // look for some remaining invisible ones
+      var some_left = false;
+      $("div.photo").each(function(idx,obj){
+          obj = $(obj);
+          if (obj.is(':visible')) {
+              return;
+          }
+          some_left = true;
+          return false;
+      });
+      return some_left;
+  }
+
+  // on page load show some images
+  show_images(5);
+
+  $(".more").click(function() {
+      var left = show_images(5);
+      if (!left) {
+          $(".more").hide();
+      }
+      return false;
+  });
+</script>
 
 {% endblock %}

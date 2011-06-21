@@ -26,7 +26,7 @@ class FlickrgramApp (FlickrApp) :
         extras = "date_upload,date_taken,owner_name,icon_server,geo,path_alias"
         result = self.proxy_api_call("flickr.photos.getContactsPhotos", {
             "auth_token":self.user.token,
-            "count":30, # can't paginate beyond this, alas
+            "count":50, # there's no pagination, and 50 is the maximum.
             "include_self":1,
             "extras":extras,
         }, ttl=120)
@@ -94,13 +94,12 @@ class MainApp(FlickrgramApp) :
     def get (self) :
         if not self.check_logged_in(self.min_perms) :
             return self.render("login.html", locals())
+        crumb = self.generate_crumb(self.user, 'logout')
         
         try:
             photos = self.search(1)
         except FlickrProblem, error:
             pass
-        
-        crumb = self.generate_crumb(self.user, 'logout')
         
         return self.render("index.html", locals())
     
