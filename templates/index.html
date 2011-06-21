@@ -2,20 +2,24 @@
 {% block content %}
 
 {% for photo in photos %}
-    <div class="photo" style="display: none">
+    <div class="photo" style="display: none" id="#photo-{{ photo.id }}">
+
         <div class="ago" style="float: right">{{ photo.ago }}</div>
         <img class="icon" style="float: left; margin: 0 5px 5px 0;" data-src="{% if photo.iconserver %}http://farm{{photo.iconfarm}}.static.flickr.com/{{photo.iconserver}}/buddyicons/{{photo.owner}}.jpg{% else %}http://www.flickr.com/images/buddyicon.jpg{% endif %}" width="32" height="32">
         <div style="float: left;">
           <span class="ownername">{{ photo.ownername }}</span>
             {% if photo.latitude and photo.longitude %}
-            <span class="map"><a href="http://maps.google.com/maps?q={{ photo.title }}@{{ photo.latitude }},{{ photo.longitude }}&amp;z=13">on a map</a></span>
+            <span class="map"><a onclick="$('#map-{{photo.id}}').slideToggle(250); return false;" href="#">on a map</a></span>
             {% endif %}
         </div>
-
         <div style="clear: both;"></div>
+
+        <div id="map-{{photo.id}}" style="display: none">
+          <a target="_new" href="http://maps.google.com/maps?q={{ photo.title }}@{{ photo.latitude }},{{ photo.longitude }}&amp;z=13"><img data-src="http://maps.google.com/maps/api/staticmap?center={{photo.latitude}},{{photo.longitude}}&amp;zoom=14&amp;size=400x150&amp;maptype=roadmap&amp;markers=color:blue|size:small|{{photo.latitude}},{{photo.longitude}}&amp;sensor=false"></a>
+        </div>
         
         <center>
-        <a href="http://www.flickr.com/photos/{{ photo.pathalias }}/{{ photo.id }}">
+        <a href="http://www.flickr.com/photos/{{ photo.pathalias }}/{{ photo.id }}" target="_blank">
             <img data-src="http://farm{{photo.farm}}.static.flickr.com/{{photo.server}}/{{photo.id}}_{{photo.secret}}.jpg" class="image">
         </a>
         </center>
