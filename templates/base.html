@@ -37,12 +37,16 @@
     {% endif %}
 </div>
 
+
+<div id="content">
+
 {% if error %}
-<h2>{{ error }}</h2>
+<span class="error">{{ error }}</span>
 {% endif %}
 
 {% block content %}
 {% endblock %}
+</div>
 
 <p class="credits">Another fine <a href="http://code.movieos.org">Tom Insam product</a></p>
 

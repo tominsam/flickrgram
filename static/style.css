@@ -8,15 +8,13 @@ div,span,body,html {
 }
 
 body {
-  width: 320px;
-  overflow-x: hidden;
   font-family: Helvetica, sans;
+  font-size: 14px;
 }
 
 #header {
-  padding: 4px;
-  margin: 0 0 20px 0;
-/*  position: fixed;*/
+  padding: 5px;
+  margin: 0;
   display: block;
   border-bottom: 1px solid black;
   width: 310px;
@@ -24,10 +22,16 @@ body {
   z-index: 2;
 }
 
-
-#photos {
+#content {
+  padding: 5px;
+  margin: 0;
   width: 310px;
-  padding: 4px;
+  overflow-x: hidden;
+}
+
+h1 {
+  margin: 0 0 10px 0;
+  padding: 0;
 }
 
 .photo {
@@ -40,9 +44,21 @@ body {
   min-height: 200px;
 }
 
-.image {
-  max-width: 310px;
+img {
+  max-width: 100%; /* 310px; */
   max-height: 340px;
+}
+
+.connect {
+  display: block;
+  width: 80%;
+  padding: 10px;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid black;
+  background: #dddddd;
+  text-align: center;
 }
 
 
@@ -86,3 +102,8 @@ a {
   width:300px;
   padding: 10px;
 }
+
+.error {
+  color: red;
+}
+
